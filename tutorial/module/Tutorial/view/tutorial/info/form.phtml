@@ -1,0 +1,31 @@
+<?php ini_set('display_errors', 1); ?>
+<h1>Form</h1>
+<hr>
+<?= $this->message; ?>
+<hr>
+<?php
+ini_set('display_errors', 1);
+$this->form->prepare();
+echo $this->form()->openTag($this->form);
+?>
+<table width="80%">
+<tr>
+<th><?= $this->formLabel($this->form->get('name')); ?></th>
+<td><?= $this->formText($this->form->get('name')); ?></td>
+<td><?= $this->formElementErrors($this->form->get('name')); ?></td>
+</tr>
+<tr>
+<th><?= $this->formLabel($this->form->get('email')); ?></th>
+<td><?= $this->formEmail($this->form->get('email')); ?></td>
+<td><?= $this->formElementErrors($this->form->get('email')); ?></td>
+</tr>
+<tr>
+<td><?= $this->formSubmit($this->form->get('send')); ?></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</table>
+<?= $this->form()->closeTag(); ?>
+<hr>
+<?php Zend\Debug\Debug::dump($data) ?>
+

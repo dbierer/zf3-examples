@@ -1,0 +1,41 @@
+<style>
+td {
+	border: thin solid gray;
+    text-align: center;
+}
+th {
+	border: thin solid gray;
+    text-align: center;
+}
+</style>
+<h1>Delete This Item?</h1>
+<?php $this->deleteForm->prepare(); ?>
+<?= $this->form()->openTag($this->deleteForm); ?>
+<?= $this->formrow($this->deleteForm->get('deleteCode')); ?>
+<?= $this->formrow($this->deleteForm->get('submit')); ?>
+<?= $this->formrow($this->deleteForm->get('cancel')); ?>
+<?= $this->formhidden($this->deleteForm->get('itemId')); ?>
+<?= $this->formhidden($this->deleteForm->get('noBots')); ?>
+<?= $this->form()->closeTag(); ?>
+</table>
+<?= $this->partial('partials/messages', ['flash' => $this->flash]); ?>
+<hr />
+<style>
+.listingImage {
+    float: left;
+    width: 40%;
+    height: 800px;
+}
+</style>
+<p>
+<?php if ($this->item) : ?>
+	<h3><i><?php echo $this->escapeHtml($this->item->title); ?></i></h3>
+	<div class="listingImage">
+	<?php $photoFilename = $this->escapeHtml($this->item->photo_filename); ?>
+	<?php if (stripos($photoFilename, 'http:') === FALSE) $photoFilename = $this->basePath() . $photoFilename; ?>
+	<img src="<?php echo  $photoFilename; ?>" width="200px"/>
+	</div>
+<?php else : ?>
+  	Unable to find listing!
+<?php endif; ?>
+</p>

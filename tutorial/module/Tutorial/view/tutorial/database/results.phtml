@@ -1,0 +1,27 @@
+<style>
+.tutorial-cell {
+    border: thin solid black;
+    width: 200px;
+    cell-spacing: 20px;
+}
+</style>
+<h1>Database Query</h1>
+<hr>
+<?php if ($this->result && count($this->result)) : ?>
+<table>
+<tr><thead><th class="tutorial-cell">Name</th><th class="tutorial-cell">Email</th><th class="tutorial-cell">&nbsp;</th></thead></tr>
+<tbody>
+<?php foreach ($this->result as $row) : ?>
+<tr>
+<td class="tutorial-cell"><?= $row->name; ?></td>
+<td class="tutorial-cell"><?= $row->email; ?></td>
+<td class="tutorial-cell"><a href="/tutorial/db/delete/<?= $row->id; ?>">DEL</a></td>
+</tr>
+<?php endforeach; ?>
+</tbody>
+</table>
+<?php else : ?>
+No Results
+<?php endif; ?>
+<hr>
+<?php Zend\Debug\Debug::dump($this->result); ?>

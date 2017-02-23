@@ -1,0 +1,56 @@
+<!-- scripts, javascript, etc. -->
+
+<script type="text/javascript">
+$(document).ready(function(){
+	$( "#cityCode" ).autocomplete({"source":"\/city-lookup"});
+});
+</script>
+
+<style>
+label {
+	margin-right: 20px;
+	margin-left: 20px;
+	margin-bottom: 10px;
+}
+</style>
+
+<?php echo $this->headScript()->setFile('http://code.jquery.com/jquery-1.9.1.js', 'text/javascript'); ?>
+<?php echo $this->headScript()->setFile('http://code.jquery.com/ui/1.10.3/jquery-ui.js', 'text/javascript'); ?>
+
+
+<!-- start of actual content -->
+
+<h1>Online Market Posting</h1>
+<hr />
+
+<?= $this->partial('partials/messages', ['flash' => $this->flash]); ?>
+
+<?php $invalid = $this->postForm->getInputFilter()->getInvalidInput(); ?>
+<?php if ($invalid && count($invalid)) : ?>
+    <h3 style="color:red;">Invalid Fields</h3>
+    <ul>
+    <?php foreach ($invalid as $input) : ?>
+        <li>
+            <?= $input->getName() . ':' ?>
+            <?php foreach ($input->getValidatorChain()->getValidators() as $chain) : ?>
+            <?php foreach ($chain as $validator) : ?>
+                <?php if ($validator && is_object($validator)) : ?>
+                <?php $error = $validator->getMessages(); ?>
+                    <?= implode(',', $error); ?>
+                <?php endif; ?>
+            <?php endforeach; ?>
+            <?php endforeach; ?>
+        </li>
+    <?php endforeach; ?>
+    </ul>
+    <?=  '<hr />'  ?>
+<?php endif; ?>
+
+<?php $this->postForm->prepare(); ?>
+<?php echo $this->form()->openTag($this->postForm); ?>
+<?php echo $this->formcollection($this->postForm); ?>
+<?php echo $this->form()->closeTag(); ?>
+
+<hr />
+<?php Zend\Debug\Debug::dump($this->data); ?>
+

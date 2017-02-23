@@ -1,0 +1,8 @@
+.vagrant/
+vendor/
+data/cache/*
+data/mail/*
+data/log/*
+!data/cache/.gitkeep
+public/captcha/*
+.project

@@ -1,0 +1,5 @@
+<?php if ($this->flash && $this->flash->hasMessages()) : ?>
+    <h3 style="color:red;">Messages</h3>
+    <?=  $this->htmlList($this->flash->getMessages()); ?>
+    <hr />
+<?php endif; ?>

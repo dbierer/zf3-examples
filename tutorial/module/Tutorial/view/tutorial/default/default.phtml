@@ -1,0 +1,22 @@
+<?= $this->headMeta()
+    ->appendName('keywords', 'zf3 zend php')
+    ->appendName('description', 'demo website')
+    ->appendName('robots', 'noindex');
+?>
+<h1 style="color:red;">Default Tutorial Module</h1>
+<hr>
+<?php $name = sprintf('%s %s', $this->firstName, $this->lastName); ?>
+UNESCAPED NAME: <?php // echo $name 
+?>
+<br>ESCAPED NAME: <?= $this->escapehtml($name); ?>
+<hr>
+<ul>
+<?php $firstName = 'TEST'; ?>
+<li><?php echo $firstName . ' ' . $lastName; ?></li>
+<li><?php echo $this->firstName . ' ' . $this->lastName; ?></li>
+<li><?php echo $this->vars()->firstName . ' ' . $this->vars()->lastName; ?></li>
+</ul>
+<?php echo $this->whatever ?>
+<hr>
+<h3>Using a Partial</h3>
+<?php echo $this->partial('tutorial/alternate/whatever', ['someContent' => $this->someContent]) ?>

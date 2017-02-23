@@ -1,0 +1,4 @@
+<h1><?= $this->escapeHtml(ucfirst($this->category) ?? 'Unknown'); ?></h1>
+<hr>
+<?php echo $this->partial('partials/list', ['listing' => $this->listing]); ?>
+

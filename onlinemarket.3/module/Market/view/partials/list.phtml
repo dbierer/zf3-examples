@@ -1,0 +1,32 @@
+<div class="span7">
+<style>
+td {
+	border: thin solid gray;
+}
+th {
+	color: green;
+	border: thin solid gray;
+}
+</style>
+<h2><?php echo $this->escapeHtml(ucwords($this->category)); ?></h2>
+<p>
+<?php if ($this->listing && $this->listing->count()) : ?>
+	<table width="100%" cellspacing="5px" cellpadding="5px">
+	<tr><th>Title</th><th>Price</th><th>Posted</th><th>Expires</th><th>City</th><th>Country</th></tr>
+	<?php while ($item = $this->listing->current()) : ?>
+		<tr style="background-color:<?php echo $this->cycle(array('#F0F0F0', '#FFFFFF'))->next(); ?>;">
+		<td><a href="<?php echo $this->basePath(); ?>/market/view/item/<?php echo (int) $item->listings_id; ?>"><b><i><?php echo $this->escapeHtml($item->title); ?></i></b></a></td>
+		<td>$<?php echo number_format($item->price,2); ?></td>
+		<td><?php echo $this->escapeHtml($item->date_created); ?></td>
+		<td><?php echo $this->escapeHtml($item->date_expires); ?></td>
+		<td><?php echo $this->escapeHtml($item->city); ?></td>
+		<td><?php echo $this->escapeHtml($item->country); ?></td>
+		</tr>
+		<?php $this->listing->next(); ?>
+	<?php endwhile; ?>
+	</table>
+<?php else : ?>
+  	No Listings!
+<?php endif; ?>
+</p>
+</div>

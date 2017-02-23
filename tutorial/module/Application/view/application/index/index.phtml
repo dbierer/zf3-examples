@@ -1,0 +1,25 @@
+<div class="jumbotron">
+    <h1>Welcome to <span class="zf-green">Zend Framework</span></h1>
+
+    <p>
+       <?php printf('Name: %s %s', $this->firstName, $this->lastName); ?>
+    </p>
+
+    <p>
+        To get the demo running, proceed as follows:
+        <ul>
+            <li>From /path/to/source/tutorial run <pre>php composer.phar install</pre></li>
+            <li>Create a MySQL database "tutorial"</li>
+            <li>Restore the database contents from <pre>/path/to/source/tutorial/module/Tutorial/config/tutorial.sql</pre></li>
+            <li>You can then launch the PHP webserver as follows:
+            <pre>cd /path/to/source/tutorial
+php -S localhost:8080 -t public</pre>
+            </li>
+            <li>From your browser type <pre>http://localhost:8080/</pre></li>
+        </ul>
+    </p>
+    <p>
+        <a class="btn btn-success btn-lg" href="https://github.com/dbierer/zf3f-jan-2017" target="_blank">Source Code</a>
+        <a class="btn btn-success btn-lg" href="https://framework.zend.com/learn" target="_blank">Documentation</a>
+    </p>
+</div>
