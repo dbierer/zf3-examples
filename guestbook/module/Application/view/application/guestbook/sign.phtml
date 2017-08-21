@@ -1,0 +1,25 @@
+<div class="row">
+
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Signup Form</h3>
+            </div>
+            <div class="panel-body">
+                <p>Please sign our guestbook!</p>
+                <?php $this->form->prepare(); ?>
+                <?= $this->form()->openTag($this->form); ?>
+                <p>
+                    <dt><?= $this->formLabel($this->form->get('email')); ?></dt>
+                    <dd><?= $this->formEmail($this->form->get('email')); ?></dd>
+                    <dt><?= $this->formLabel($this->form->get('comments')); ?></dt>
+                    <dd><?= $this->formTextarea($this->form->get('comments')); ?></dd>
+                </p>
+                <p><span class="btn btn-success"><?= $this->formSubmit($this->form->get('submit')); ?></span></p>
+                <?= $this->form()->closeTag(); ?>
+                
+            </div>
+        </div>
+    </div>
+
+</div>

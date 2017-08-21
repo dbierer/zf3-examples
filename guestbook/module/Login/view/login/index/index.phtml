@@ -1,0 +1,49 @@
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-default" style="height:500px;">
+            <div class="panel-heading">
+                <h3 class="panel-title">Login</h3>
+            </div>
+            <div class="panel-body">
+                <?php $this->loginForm->setAttributes(['action' => $this->url('login', ['action' => 'login'])]); ?>
+                <?php $this->loginForm->prepare(); ?>
+                <?= $this->form()->openTag($this->loginForm); ?>
+                <dt><?= $this->formLabel($this->loginForm->get('email')); ?></dt>
+                <dd><?= $this->formEmail($this->loginForm->get('email')); ?><?= $this->formElementErrors($this->loginForm->get('email')); ?></dd>
+                <dt><?= $this->formLabel($this->loginForm->get('password')); ?></dt>
+                <dd><?= $this->formPassword($this->loginForm->get('password')); ?><?= $this->formElementErrors($this->loginForm->get('password')); ?></dd>
+                <p><span class="btn btn-success"><?= $this->formSubmit($this->loginForm->get('submit')); ?></span></p>
+                <?= $this->form()->closeTag(); ?>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="panel panel-default" style="height:500px;">
+            <div class="panel-heading">
+                <h3 class="panel-title">Register</h3>
+            </div>
+            <div class="panel-body">
+                <?php $this->regForm->setAttributes(['action' => $this->url('login', ['action' => 'register'])]); ?>
+                <?php $this->regForm->prepare(); ?>
+                <?= $this->form()->openTag($this->regForm); ?>
+                <dt><?= $this->formLabel($this->regForm->get('email')); ?></dt>
+                <dd><?= $this->formEmail($this->regForm->get('email')); ?><?= $this->formElementErrors($this->regForm->get('email')); ?></dd>
+                <dt><?= $this->formLabel($this->regForm->get('password')); ?></dt>
+                <dd><?= $this->formPassword($this->regForm->get('password')); ?><?= $this->formElementErrors($this->regForm->get('password')); ?></dd>
+                <dt><?= $this->formLabel($this->regForm->get('username')); ?></dt>
+                <dd><?= $this->formText($this->regForm->get('username')); ?><?= $this->formElementErrors($this->regForm->get('username')); ?></dd>
+                <dt><?= $this->formLabel($this->regForm->get('securityQuestion')); ?></dt>
+                <dd><?= $this->formText($this->regForm->get('securityQuestion')); ?><?= $this->formElementErrors($this->regForm->get('securityQuestion')); ?></dd>
+                <dt><?= $this->formLabel($this->regForm->get('securityAnswer')); ?></dt>
+                <dd><?= $this->formText($this->regForm->get('securityAnswer')); ?><?= $this->formElementErrors($this->regForm->get('securityAnswer')); ?></dd>
+                <p><span class="btn btn-success"><?= $this->formSubmit($this->regForm->get('submit')); ?></span></p>
+                <?= $this->form()->closeTag(); ?>
+            </div>
+        </div>
+    </div>
+    
+    <div style="text-align: center">
+        <?php echo $this->message; ?>
+    </div>
+</div>

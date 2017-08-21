@@ -1,0 +1,70 @@
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-default" style="height:500px;">
+            
+            <div class="panel-heading">                
+                <h3 class="panel-title">Messages Sent</h3>
+            </div>
+            <div class="panel-body">
+                <?php if (isset($this->sentMessages) && count($this->sentMessages)) : ?>
+                    <table width="100%">
+                    <tr><th width="30%">To</th><th width="70%">Message</th></tr>
+                    <?php foreach ($this->sentMessages as $message) : ?>
+                        <tr>
+                            <th width="30%"><?= $message->getToEmail(); ?></th>
+                            <td width="70%"><?= $this->blockCipher->decrypt($message->getMessage()); ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </table>
+                <?php else : ?>
+                    <br>None
+                <?php endif; ?>
+            </div>
+                
+            <div class="panel-heading">                
+                <h3 class="panel-title">Messages Received</h3>
+            </div>
+            <div class="panel-body">
+                <?php if (isset($this->receivedMessages) && count($this->receivedMessages)) : ?>
+                    <table width="100%">
+                    <tr><th width="30%">From</th><th width="70%">Message</th></tr>
+                    <?php foreach ($this->receivedMessages as $message) : ?>
+                        <tr>
+                            <th width="30%"><?= $message->getFromEmail(); ?></th>
+                            <td width="70%"><?= $this->blockCipher->decrypt($message->getMessage()); ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </table>
+                <?php else : ?>
+                    <br>None
+                <?php endif; ?>
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="panel panel-default" style="height:500px;">
+            <div class="panel-heading">
+                <h3 class="panel-title">Send New Message</h3>
+            </div>
+            <div class="panel-body">
+                <?php $this->sendForm->setAttributes(['action' => $this->url('messages', ['action' => 'send'])]); ?>
+                <?php $this->sendForm->prepare(); ?>
+                <?= $this->form()->openTag($this->sendForm); ?>
+                <dt><?= $this->formLabel($this->sendForm->get('fromEmail')); ?></dt>
+                <dd><?= $this->formEmail($this->sendForm->get('fromEmail')); ?><?= $this->formElementErrors($this->sendForm->get('fromEmail')); ?></dd>
+                <dt><?= $this->formLabel($this->sendForm->get('toEmail')); ?></dt>
+                <dd><?= $this->formEmail($this->sendForm->get('toEmail')); ?><?= $this->formElementErrors($this->sendForm->get('toEmail')); ?></dd>
+                <dt><?= $this->formLabel($this->sendForm->get('message')); ?></dt>
+                <dd><?= $this->formTextarea($this->sendForm->get('message')); ?><?= $this->formElementErrors($this->sendForm->get('message')); ?></dd>
+                <p><span class="btn btn-success"><?= $this->formSubmit($this->sendForm->get('submit')); ?></span></p>
+                <?= $this->form()->closeTag(); ?>
+            </div>
+        </div>
+    </div>
+    
+    <div style="text-align: center">
+        <?php echo $this->status; ?>
+    </div>
+</div>

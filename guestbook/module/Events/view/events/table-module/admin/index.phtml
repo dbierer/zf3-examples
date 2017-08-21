@@ -1,0 +1,12 @@
+<div class="col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Events Admin</h3>
+        </div>
+        <div class="panel-body">
+            <?php foreach ($events as $event) : ?>
+                <a href="/events/table-module/admin/<?= $event['id'] ?>"><?= $event['name'] ?></a><br />
+            <?php endforeach; ?>
+        </div>
+    </div>
+</div>

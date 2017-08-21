@@ -1,0 +1,24 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Application Error Log</h3>
+            </div>
+            <div class="panel-body">
+                <?php $search = date('d-M-Y'); ?>
+                Logfile: <?= $this->logFile; ?> for <?= $search; ?>
+                <?php if (file_exists($this->logFile)) : ?>
+                    <div style="width:100%; text-align:left; float:left;">
+                    <span style="font-family: mono;font-size: 8pt;">
+                    <?php foreach (file($this->logFile) as $line) : ?>
+                        <?php if (strpos($line, $search)) echo '<br>' . $line; ?>
+                    <?php endforeach; ?>
+                    </span>
+                    </div>
+                <?php else : ?>
+                Log file <?= $this->logFile ?? 'Unknown'; ?>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+</div>

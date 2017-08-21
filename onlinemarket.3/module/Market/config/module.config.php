@@ -2,8 +2,7 @@
 namespace Market;
 
 use Market\Plugin\ {Flash, Csrf};
-use Zend\Router\Http\Literal;
-use Zend\Router\Http\Segment;
+use Zend\Router\Http\ {Literal, Segment};
 use Zend\View\Helper as ViewHelper;
 use Zend\Form\View\Helper as FormHelper;
 use Zend\ServiceManager\Factory\InvokableFactory;

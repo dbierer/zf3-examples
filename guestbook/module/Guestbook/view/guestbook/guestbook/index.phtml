@@ -1,0 +1,31 @@
+<div class="row">
+
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Guestbook List</h3>
+            </div>
+            <div class="panel-body">
+                <table width="100%">
+                <tr>
+                    <th width="15%">Name</th>
+                    <th width="10%">Avatar</th>
+                    <th width="20%">Email</th>
+                    <th width="25%">Website</th>
+                    <th width="30%">Message</th>
+                </tr>
+                <?php foreach ($this->guestList as $guest) : ?>
+                <tr>
+                    <td width="15%"><?= $guest->getName(); ?></td>
+                    <td width="10%"><img src="render.php?fn=<?= $guest->getAvatar(); ?>" width="auto" height="30px"/></td>
+                    <td width="20%"><?= $guest->getEmail(); ?></td>
+                    <td width="25%"><?= $guest->getWebsite(); ?></td>
+                    <td width="30%"><?= $guest->getMessage(); ?></td>
+                </tr>
+                <?php endforeach; ?>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
