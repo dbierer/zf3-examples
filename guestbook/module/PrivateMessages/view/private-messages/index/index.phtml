@@ -8,11 +8,10 @@
             <div class="panel-body">
                 <?php if (isset($this->sentMessages) && count($this->sentMessages)) : ?>
                     <table width="100%">
-                    <tr><th width="30%">To</th><th width="70%">Message</th></tr>
                     <?php foreach ($this->sentMessages as $message) : ?>
                         <tr>
                             <th width="30%"><?= $message->getToEmail(); ?></th>
-                            <td width="70%"><?= $this->blockCipher->decrypt($message->getMessage()); ?></td>
+                            <td width="70%"><?= $message->getMessage(); ?></td>
                         </tr>
                     <?php endforeach; ?>
                     </table>
@@ -27,11 +26,10 @@
             <div class="panel-body">
                 <?php if (isset($this->receivedMessages) && count($this->receivedMessages)) : ?>
                     <table width="100%">
-                    <tr><th width="30%">From</th><th width="70%">Message</th></tr>
                     <?php foreach ($this->receivedMessages as $message) : ?>
                         <tr>
                             <th width="30%"><?= $message->getFromEmail(); ?></th>
-                            <td width="70%"><?= $this->blockCipher->decrypt($message->getMessage()); ?></td>
+                            <td width="70%"><?= $message->getMessage(); ?></td>
                         </tr>
                     <?php endforeach; ?>
                     </table>

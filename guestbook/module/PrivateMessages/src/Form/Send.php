@@ -6,8 +6,11 @@ use Zend\Validator;
 use Zend\Form\ {Form, Element};
 use Zend\InputFilter\ {InputFilter, Input};
 use Zend\Hydrator\ClassMethods;
+use PrivateMessages\Traits\BlockCipherTrait;
+
 class Send extends Form
 {
+    use BlockCipherTrait;   
     public function addElements()
     {
         $this->setHydrator(new ClassMethods());
@@ -60,7 +63,8 @@ class Send extends Form
               ->attach(new Validator\NotEmpty());
         $message->getFilterChain()
               ->attach(new Filter\StringTrim())
-              ->attach(new Filter\StripTags());              
+              ->attach(new Filter\StripTags());
+              //->attach(new EncryptFilter($this->blockCipher));
         $inputFilter->add($message);
         
         

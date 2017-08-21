@@ -13,7 +13,6 @@ use Zend\Authentication\AuthenticationService;
 class IndexController extends AbstractActionController
 {
     
-    use BlockCipherTrait;
     use FlashMessengerTrait;
     
     const FORM_INVALID  = '<b style="color:orange;">There were invalid form entries: please review error messages</b>';
@@ -53,7 +52,7 @@ class IndexController extends AbstractActionController
                 $status = self::FORM_INVALID;
             } else {
                 $message = $this->sendForm->getData();
-                $message->setMessage($this->blockCipher->encrypt($message->getMessage()));
+                //$message->setMessage($this->blockCipher->encrypt($message->getMessage()));
                 if ($this->table->save($message)) {
                     $status = self::SEND_SUCCESS;
                     $this->redirect()->toRoute('messages');
@@ -71,7 +70,7 @@ class IndexController extends AbstractActionController
                               'sentMessages' => $this->table->findMessagesSent($user->getEmail()),
                               'receivedMessages' => $this->table->findMessagesReceived($user->getEmail()),
                               'status' => $status,
-                              'blockCipher' => $this->blockCipher,
+                              //'blockCipher' => $this->blockCipher,
                               'identity' => $this->authService->getIdentity()]);
         $viewModel->setTemplate('private-messages/index/index');
         return $viewModel;

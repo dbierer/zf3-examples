@@ -1,10 +1,12 @@
 <?php
 namespace PrivateMessages;
 
+use PrivateMessages\Hydrator\PrivateHydrator;
 use PrivateMessages\Model\Message;
+
 use Zend\Mvc\MvcEvent;
-use Zend\Crypt\Symmetric\Exception\NotFoundException;
 use Zend\Crypt\BlockCipher;
+use Zend\Crypt\Symmetric\Exception\NotFoundException;
 
 class Module
 {
@@ -41,8 +43,7 @@ class Module
         return [
             'services' => [
                 'private-messages-key' => 'AXee4aivHieQuei8Ophao8Ooda7AhbiX',
-                'private-messages-algos' => 
-                    ['camellia-256-gcm','camellia-256-ctr','aes-256-gcm', 'aes-256-ctr'],
+                'private-messages-algos' => ['aes-256-gcm', 'aes-256-ctr'],
             ],
             'factories' => [
                 'private-messages-openssl-config' => 
@@ -72,6 +73,12 @@ class Module
                             'openssl', ['algo' => $config[0], 'mode' => $config[2]]);
                         $cipher->setKey($container->get('private-messages-key'));
                         return $cipher;
+                },
+                'private-messages-hydrator' => 
+                    function ($container) {
+                        $hydrator = new PrivateHydrator();
+                        $hydrator->setBlockCipher($container->get('private-messages-block-cipher'));
+                        return $hydrator;
                 },
             ],
         ];
