@@ -8,6 +8,11 @@ use Zend\InputFilter\ {InputFilter, Input};
 use Zend\Hydrator\ClassMethods;
 class Login extends Form
 {
+    protected $localeList;
+    public function setLocaleList($list)
+    {
+        $this->localeList = $list;
+    }
     public function addElements()
     {
         $this->setHydrator(new ClassMethods());
@@ -22,6 +27,11 @@ class Login extends Form
         $password->setLabel('Password');        
         $password->setAttributes(['size' => 40]);
         $this->add($password);
+        
+        $locale = new Element\Select('locale');
+        $locale->setLabel('Preferred Language');        
+        $locale->setValueOptions($this->localeList);
+        $this->add($locale);
         
         $submit = new Element\Submit('submit');
         $submit->setAttributes(['value' => 'Login',
@@ -41,9 +51,18 @@ class Login extends Form
               ->attach(new Filter\StripTags());              
         $inputFilter->add($email);
         
+        $locale = new Input('locale');
+        $locale->getValidatorChain()
+              ->attach(new Validator\InArray(['haystack' => array_keys($this->localeList)]));
+        $locale->getFilterChain()
+              ->attach(new Filter\StringTrim())
+              ->attach(new Filter\StripTags());              
+        $inputFilter->add($locale);
+        
         $password = new Input('password');
-        $password->getValidatorChain()
-              ->attach(new Validator\NotEmpty());
+        $password->setRequired(FALSE);
+        $password->getFilterChain()
+              ->attach(new Filter\StringTrim());                      
         $inputFilter->add($password);
         
         $this->setInputFilter($inputFilter);

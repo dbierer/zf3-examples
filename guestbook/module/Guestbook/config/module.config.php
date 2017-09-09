@@ -38,6 +38,9 @@ return [
         ],
     ],
     'service_manager' => [
+        'services' => [
+            'guestbook-audit-filename' => __DIR__ . '/../../../data/logs/guestbook_audit.log',
+        ],
         'aliases' => [
             // config is in /config/autoload/db.local.php
             'guestbook-db-config' => 'local-db-config',
@@ -45,6 +48,7 @@ return [
         'factories' => [
             Form\Guestbook::class => Form\Factory\GuestbookFormFactory::class,
             Mapper\Guestbook::class => Mapper\Factory\GuestbookMapperFactory::class,
+            Listener\CacheAggregate::class => Listener\Factory\CacheAggregateFactory::class,
         ],
     ],
     'controllers' => [
@@ -56,5 +60,8 @@ return [
         'template_path_stack' => [
             __DIR__ . '/../view',
         ],
+    ],
+    'listeners' => [
+        Listener\CacheAggregate::class,
     ],
 ];

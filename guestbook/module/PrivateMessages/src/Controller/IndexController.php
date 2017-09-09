@@ -1,7 +1,8 @@
 <?php
 namespace PrivateMessages\Controller;
 
-use Application\Traits\FlashMessengerTrait;
+use Login\Model\User;
+use Application\Traits\SessionTrait;
 use PrivateMessages\Form\Send as SendForm;
 use PrivateMessages\Traits\BlockCipherTrait;
 use PrivateMessages\Model\ {Message, MessagesTable};
@@ -13,7 +14,7 @@ use Zend\Authentication\AuthenticationService;
 class IndexController extends AbstractActionController
 {
     
-    use FlashMessengerTrait;
+    use SessionTrait;
     
     const FORM_INVALID  = '<b style="color:orange;">There were invalid form entries: please review error messages</b>';
     const SEND_SUCCESS   = '<b style="color:green;">Message sent successfully</b>';
@@ -34,7 +35,8 @@ class IndexController extends AbstractActionController
         }        
         $from = $this->sendForm->get('fromEmail');
         $from->setAttribute('value', $user->getEmail());
-        return $this->setViewModel($user, implode('<br>', $this->flashMessenger()->getMessages()));
+        $message = $this->session->message ?? '';
+        return $this->setViewModel($user, $message);
     }    
     public function sendAction()
     {
@@ -52,7 +54,6 @@ class IndexController extends AbstractActionController
                 $status = self::FORM_INVALID;
             } else {
                 $message = $this->sendForm->getData();
-                //$message->setMessage($this->blockCipher->encrypt($message->getMessage()));
                 if ($this->table->save($message)) {
                     $status = self::SEND_SUCCESS;
                     $this->redirect()->toRoute('messages');
@@ -61,17 +62,20 @@ class IndexController extends AbstractActionController
                 }
             }
         }
-        $this->flashMessenger()->addMessage($status);
+        $this->session->message = $status;
         return $this->setViewModel($user, $status);
     }
     protected function setViewModel($user, $status)
     {
-        $viewModel = new ViewModel(['sendForm' => $this->sendForm,
-                              'sentMessages' => $this->table->findMessagesSent($user->getEmail()),
-                              'receivedMessages' => $this->table->findMessagesReceived($user->getEmail()),
-                              'status' => $status,
-                              //'blockCipher' => $this->blockCipher,
-                              'identity' => $this->authService->getIdentity()]);
+        $viewModel = new ViewModel(
+            [
+                'sendForm' => $this->sendForm,
+                'sentMessages' => $this->table->findMessagesSent($user->getEmail()),
+                'receivedMessages' => $this->table->findMessagesReceived($user->getEmail()),
+                'identity' => $this->authService->getIdentity(),
+                'locale' => $user->getLocale() ?? User::DEFAULT_LOCALE,
+            ]
+        );
         $viewModel->setTemplate('private-messages/index/index');
         return $viewModel;
     }

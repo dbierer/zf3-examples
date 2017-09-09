@@ -1,10 +1,10 @@
 <?php
 namespace Login;
+
 use Login\Model\UsersTable;
-use Login\Auth\CustomStorage;
+
 use Zend\Mvc\MvcEvent;
 use Zend\Db\Adapter\Adapter;
-use Zend\Authentication\Storage\Session;
 use Zend\Authentication\AuthenticationService;
 use Zend\Authentication\Adapter\DbTable\CallbackCheckAdapter;
 
@@ -15,8 +15,7 @@ class Module
     public function onBootstrap(MvcEvent $e)
     {
         $em = $e->getApplication()->getEventManager();
-        $em->attach(MvcEvent::EVENT_DISPATCH, [$this, 'injectAuthService']);
-        $em->attach(MvcEvent::EVENT_DISPATCH, [$this, 'resetNavigation'], 99);
+        $em->attach(MvcEvent::EVENT_DISPATCH, [$this, 'injectAuthService'], 999);
     }
     
     public function injectAuthService(MvcEvent $e)
@@ -24,20 +23,6 @@ class Module
         $sm = $e->getApplication()->getServiceManager();
         $layout = $e->getViewModel();
         $layout->setVariable('authService', $sm->get('login-auth-service'));
-    }
-    
-    public function resetNavigation(MvcEvent $e)
-    {
-        $sm = $e->getApplication()->getServiceManager();
-        $authService = $sm->get('login-auth-service');
-        $navigation = $sm->get('navigation');
-        if ($authService->hasIdentity()) {
-            $page = $navigation->findOneBy('label', 'Login');
-            $navigation->removePage($page);
-        } else {
-            $page = $navigation->findOneBy('label', 'Logout');
-            $navigation->removePage($page);
-        }
     }
     
     public function getConfig()
@@ -63,13 +48,8 @@ class Module
                             else return \Login\Security\Password::verify($password, $hash); 
                         });
                 },
-                'login-auth-storage' => function ($container) {
-                    return new CustomStorage($container->get('login-storage-filename'));
-                },
                 'login-auth-service' => function ($container) {
-                    return new AuthenticationService(
-                        $container->get('login-auth-storage'),
-                        $container->get('login-auth-adapter'));
+                    return new AuthenticationService();
                 },
             ],
         ];

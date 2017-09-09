@@ -40,6 +40,7 @@ return [
             'login-block-cipher-config' => [
                 'openssl', ['algo' => 'aes', 'mode' => 'gcm']
             ],
+            'login-locale-list' => ['en' => 'English','fr' => 'Français','de' => 'Deutsch','es' => 'Español'],
         ],
     ],
     'controllers' => [

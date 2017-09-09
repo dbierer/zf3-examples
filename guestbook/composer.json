@@ -22,20 +22,27 @@
         "zendframework/zend-debug": "^2.5",
         "zendframework/zend-mvc-plugin-fileprg": "^1.0",
         "zendframework/zend-validator": "^2.9",
-        "zendframework/zend-progressbar": "^2.5",
         "zendframework/zend-inputfilter": "^2.7",
         "zendframework/zend-filter": "^2.7",
         "zendframework/zend-hydrator": "^2.2",
         "zendframework/zend-authentication": "^2.5",
-        "zendframework/zend-navigation": "^2.8"
+        "zendframework/zend-navigation": "^2.8",
+        "zendframework/zend-json": "^3.0",
+        "zendframework/zend-mvc-plugin-flashmessenger": "^1.0",
+        "league/oauth2-client": "*",
+        "league/oauth2-google": "*",
+        "zendframework/zend-cache": "^2.7"
     },
     "autoload": {
         "psr-4": {
             "Application\\": "module/Application/src/",
             "Guestbook\\": "module/Guestbook/src/",
+            "Cache\\": "module/Cache/src/",
             "Login\\": "module/Login/src/",
             "Events\\": "module/Events/src/",
-            "PrivateMessages\\": "module/PrivateMessages/src/"
+            "PrivateMessages\\": "module/PrivateMessages/src/",
+            "RestApi\\" : "module/RestApi/src/",
+            "AuthOauth\\" : "module/AuthOauth/src/"
         }
     },
     "autoload-dev": {

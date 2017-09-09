@@ -1,18 +1,20 @@
 <?php
 namespace Login\Controller;
 
-use Application\Traits\FlashMessengerTrait;
+use Application\Traits\SessionTrait;
 use Login\Model\ {User, UsersTable};
 use Login\Form\ {Login as LoginForm, Register as RegForm};
+use AuthOauth\Listener\OauthListenerAggregate;
 
 use Zend\View\Model\ViewModel;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Authentication\AuthenticationService;
+use Zend\Authentication\Adapter\AdapterInterface;
 
 class IndexController extends AbstractActionController
 {
     
-    use FlashMessengerTrait;
+    use SessionTrait;
     
     const LOGIN_INIT    = '<b style="color:gray;">Please requested login information</b>';
     const LOGIN_SUCCESS = '<b style="color:green;">Login was successful</b>';
@@ -25,6 +27,7 @@ class IndexController extends AbstractActionController
     protected $loginForm;
     protected $regForm;
     protected $authService;
+    protected $authAdapter;
     
     public function indexAction()
     {
@@ -42,7 +45,7 @@ class IndexController extends AbstractActionController
      */
     public function loginAction()
     {
-        $message = '';
+        $message = NULL;
         $request = $this->getRequest();
         if ($request->isPost()) {
             $this->loginForm->bind(new User());
@@ -51,23 +54,28 @@ class IndexController extends AbstractActionController
                 $message = self::FORM_INVALID;
             } else {
                 $user = $this->loginForm->getData();
-                $adapter = $this->authService->getAdapter();
-                $adapter->setIdentity($user->getEmail());
-                $adapter->setCredential($user->getPassword());
-                $result = $adapter->authenticate();
+                // save locale from login form
+                $locale = $user->getLocale() ?? User::DEFAULT_LOCALE;
+                // trigger event in case we want to authenticate using OAuth2
+                $this->getEventManager()->trigger(OauthListenerAggregate::EVENT_LOGIN, $this, ['entity' => $user]);
+                // otherwise, continue as normal
+                $this->authAdapter->setIdentity($user->getEmail());
+                $this->authAdapter->setCredential($user->getPassword());
+                $result = $this->authAdapter->authenticate();
                 if ($result->isValid()) {
                     $storage = $this->authService->getStorage();
-                    $user = $adapter->getResultRowObject();
-                    $storage->write(new User(get_object_vars($user)));
-                    $message = self::LOGIN_SUCCESS;
-                    $this->redirect()->toRoute('login');
+                    $user = new User(get_object_vars($this->authAdapter->getResultRowObject()));
+                    // override locale
+                    $user->setLocale($locale);
+                    $storage->write($user);
+                    $this->sessionContainer->message = self::LOGIN_SUCCESS;
                 } else {
                     $message = self::LOGIN_FAIL . '<br>' . implode('<br>', $result->getMessages());
                 }
             }
-            $this->flashMessenger()->addMessage($message);
+            $this->sessionContainer->message = $message;
         }
-        $message = $message ?: implode('<br>', $this->flashMessenger()->getMessages());
+        $message = $message ?? $this->sessionContainer->message ?? '';
         $viewModel = new ViewModel(['loginForm' => $this->loginForm, 
                                     'regForm' => $this->regForm,
                                     'message' => $message]);
@@ -77,6 +85,7 @@ class IndexController extends AbstractActionController
     public function logoutAction()
     {
         $this->authService->clearIdentity();
+        $this->sessionManager->destroy();
         return $this->redirect()->toRoute('login');
     }    
     public function registerAction()
@@ -121,5 +130,9 @@ class IndexController extends AbstractActionController
     public function setAuthService(AuthenticationService $svc)
     {
         $this->authService = $svc;
+    }
+    public function setAuthAdapter(AdapterInterface $adapter)
+    {
+        $this->authAdapter = $adapter;
     }
 }

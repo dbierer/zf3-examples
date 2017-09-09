@@ -1,0 +1,41 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default" style="height:500px;">
+            
+            <div class="panel-heading">                
+                <h3 class="panel-title">Diffie Hellman</h3>
+            </div>
+            
+            <div class="panel-body">
+                <?php 
+                    use Zend\Crypt\PublicKey\DiffieHellman;
+                    \Zend\Debug\Debug::dump($pairs); 
+                    $bob = new DiffieHellman($pairs['prime'],2, $pairs['bob']);
+                    $alice = new DiffieHellman($pairs['prime'],2, $pairs['alice']);
+                    $bob->generateKeys();
+                    $alice->generateKeys();
+                    $bobPub = bin2hex($bob->getPublicKey(DiffieHellman::FORMAT_BINARY));
+                    $alicePub = bin2hex($alice->getPublicKey(DiffieHellman::FORMAT_BINARY));
+                    $bobSecret = bin2hex($bob->computeSecretKey(
+                        $bob->getPublicKey(DiffieHellman::FORMAT_BINARY),
+                        DiffieHellman::FORMAT_BINARY,
+                        DiffieHellman::FORMAT_BINARY
+                    ));
+                    $aliceSecret = bin2hex($alice->computeSecretKey(
+                        $bob->getPublicKey(DiffieHellman::FORMAT_BINARY),
+                        DiffieHellman::FORMAT_BINARY,
+                        DiffieHellman::FORMAT_BINARY
+                    ));
+                ?>
+                <table>
+                    <tr><th width="20%">Bob's Public Key</th><td width="20%">&nbsp;</td><td width="60%"><?= $bobPub ?></td></tr>
+                    <tr><th width="20%">Bob's Secret Key</th><td width="20%">&nbsp;</td><td width="60%"><?= $bobSecret; ?></td></tr>
+                    <tr><th width="20%">Bob's Shared Key</th><td width="20%">&nbsp;</td><td width="60%"><?= $bobSecret; ?></td></tr>
+                    <tr><th width="20%">Alice's Public Key</th><td width="20%">&nbsp;</td><td width="60%"><?= $alicePub ?></td></tr>
+                    <tr><th width="20%">Alice's Secret Key</th><td width="20%">&nbsp;</td><td width="60%"><?= $aliceSecret; ?></td></tr>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>

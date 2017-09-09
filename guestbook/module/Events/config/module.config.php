@@ -5,6 +5,7 @@ use PDO;
 use Zend\Router\Http\Literal;
 use Zend\Router\Http\Segment;
 use Zend\ServiceManager\Factory\InvokableFactory;
+use Zend\Mvc\Controller\LazyControllerAbstractFactory;
 
 return [
     'navigation' => [
@@ -118,8 +119,11 @@ return [
         ],
     ],
     'controllers' => [
+        'abstract_factories' => [
+            LazyControllerAbstractFactory::class,
+        ],
         'factories' => [
-            Controller\IndexController::class => InvokableFactory::class,
+            Controller\IndexController::class => LazyControllerAbstractFactory::class,
             TableModule\Controller\IndexController::class  => InvokableFactory::class,
             TableModule\Controller\AdminController::class  => InvokableFactory::class,
             TableModule\Controller\SignupController::class => InvokableFactory::class,

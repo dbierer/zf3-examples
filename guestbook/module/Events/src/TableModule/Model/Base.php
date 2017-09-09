@@ -12,4 +12,8 @@ class Base
     {
         $this->tableGateway = new TableGateway(static::$tableName, $adapter);
     }
+    public function getTableGateway()
+    {
+        return $this->tableGateway;
+    }
 }

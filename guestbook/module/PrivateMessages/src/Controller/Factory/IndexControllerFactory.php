@@ -17,6 +17,7 @@ class IndexControllerFactory implements FactoryInterface
         $controller->setTable($container->get(MessagesTable::class));
         $controller->setSendForm($container->get(SendForm::class));
         $controller->setAuthService($container->get('login-auth-service'));
+        $controller->setSessionContainer($container->get('application-session-container'));
         //$controller->setBlockCipher($container->get('private-messages-block-cipher'));
         return $controller;
     }

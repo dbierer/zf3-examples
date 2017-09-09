@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-8">
         <div class="panel panel-default" style="height:500px;">
             
             <div class="panel-heading">                
@@ -9,9 +9,17 @@
                 <?php if (isset($this->sentMessages) && count($this->sentMessages)) : ?>
                     <table width="100%">
                     <?php foreach ($this->sentMessages as $message) : ?>
+                        <?php
+                            $date = $this->dateFormat(
+                                new DateTime($message->getDateTime()),
+                                IntlDateFormatter::LONG, // date
+                                IntlDateFormatter::SHORT, // time
+                                $this->locale);
+                        ?>
                         <tr>
                             <th width="30%"><?= $message->getToEmail(); ?></th>
-                            <td width="70%"><?= $message->getMessage(); ?></td>
+                            <td width="30%"><?= $date; ?></td>
+                            <td width="60%"><?= $message->getMessage(); ?></td>
                         </tr>
                     <?php endforeach; ?>
                     </table>
@@ -27,9 +35,17 @@
                 <?php if (isset($this->receivedMessages) && count($this->receivedMessages)) : ?>
                     <table width="100%">
                     <?php foreach ($this->receivedMessages as $message) : ?>
+                        <?php
+                            $date = $this->dateFormat(
+                                new DateTime($message->getDateTime()),
+                                IntlDateFormatter::LONG, // date
+                                IntlDateFormatter::SHORT, // time
+                                $this->locale);
+                        ?>
                         <tr>
-                            <th width="30%"><?= $message->getFromEmail(); ?></th>
-                            <td width="70%"><?= $message->getMessage(); ?></td>
+                            <th width="30%"><?= $message->getToEmail(); ?></th>
+                            <td width="30%"><?= $date; ?></td>
+                            <td width="60%"><?= $message->getMessage(); ?></td>
                         </tr>
                     <?php endforeach; ?>
                     </table>
@@ -41,7 +57,7 @@
         </div>
     </div>
 
-    <div class="col-md-6">
+    <div class="col-md-4">
         <div class="panel panel-default" style="height:500px;">
             <div class="panel-heading">
                 <h3 class="panel-title">Send New Message</h3>

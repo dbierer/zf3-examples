@@ -1,9 +1,4 @@
-# Guestbook App
-
-This is a rewritten version of the original ZF1 guestbook tutorial updated for ZF3.
-Includes lots of advanced features.
-
-THIS IS A WORK IN PROGRESS!!!
+# ZendSkeletonApplication
 
 ## Introduction
 

@@ -1,17 +1,13 @@
 <?php
-/**
- * @link      http://github.com/zendframework/ZendSkeletonApplication for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- */
-
 namespace Guestbook\Controller;
 
+use Guestbook\Listener\CacheAggregate;
+use Guestbook\Form\Guestbook as GuestbookForm;
 use Guestbook\Model\Guestbook as GuestbookModel;
 use Guestbook\Mapper\Guestbook as GuestbookMapper;
-use Guestbook\Form\Guestbook as GuestbookForm;
-use Zend\Mvc\Controller\AbstractActionController;
+
 use Zend\View\Model\ViewModel;
+use Zend\Mvc\Controller\AbstractActionController;
 
 class GuestbookController extends AbstractActionController
 {
@@ -44,6 +40,8 @@ class GuestbookController extends AbstractActionController
                 $guest->setAvatar(basename($guest->getAvatar()['tmp_name']));
                 if ($this->mapper->add($guest)) {
                     $message = self::SUCCESS_ADD;
+                    // trigger event to clear cache
+                    $this->getEventManager()->trigger(CacheAggregate::EVENT_CLEAR_CACHE, $this, ['entity' => $guest]);
                 } else {
                     $message = self::ERROR_ADD;
                 }

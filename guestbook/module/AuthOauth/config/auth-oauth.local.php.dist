@@ -1,0 +1,32 @@
+<?php
+// copy this file to /config/autoload/authoauth.local.php
+return [
+    'service_manager' => [
+        'invokables' => [
+            // invokable class which represents the user entity
+            'auth-oauth-user-entity' => 'AuthOauth\Generic\User',
+        ],
+        'factories' => [
+            // service manager factory for user hydrator
+            'auth-oauth-user-hydrator' => 'AuthOauth\Factory\HydratorFactory',
+            'auth-oauth-service' => 'AuthOauth\Factory\AuthServiceFactory',
+        ],
+        'services' => [
+            'auth-oauth-config' => [
+                'google' => [
+                    'clientId'     => 'client.id.from.apps.googleusercontent.com',
+                    'clientSecret' => 'client.secret.apps.googleusercontent.com',
+                    'redirectUri'  => 'http://localhost/oauth/callback',
+                    'hostedDomain' => 'http://localhost/',
+                ],
+                // add additional provider config as you go
+                // need to require appropriate library to composer.json file
+                // e.g.
+                // 'twitter' => [ xxx ]
+                // in composer.json:: require{}
+                //  "league/oauth2-twitter": "^2.0"
+                // etc.
+            ],
+        ],
+    ],
+];

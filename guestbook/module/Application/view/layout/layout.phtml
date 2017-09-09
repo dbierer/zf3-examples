@@ -38,6 +38,9 @@
                 </div>
                 <div class="collapse navbar-collapse">
                     <?= $this->navigation('default')->menu()->setUlClass('nav navbar-nav'); ?>
+                    <div style="color:white;vertical-align:center;float:right;">
+                        <?php if ($user = $this->authService->getIdentity()) echo '<br>&nbsp;&nbsp;' . $user->getEmail(); ?>
+                    </div>
                 </div>
             </div>
         </nav>

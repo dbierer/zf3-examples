@@ -7,6 +7,7 @@ use PrivateMessages\Model\Message;
 use Zend\Mvc\MvcEvent;
 use Zend\Crypt\BlockCipher;
 use Zend\Crypt\Symmetric\Exception\NotFoundException;
+use Zend\Crypt\PublicKey\DiffieHellman;
 
 class Module
 {
@@ -21,23 +22,6 @@ class Module
         return include __DIR__ . '/../config/module.config.php';
     }
 
-    public function onBootstrap(MvcEvent $e)
-    {
-        $em = $e->getApplication()->getEventManager();
-        $em->attach(MvcEvent::EVENT_DISPATCH, [$this, 'resetNavigation'], 89);
-    }
-    
-    public function resetNavigation(MvcEvent $e)
-    {
-        $sm = $e->getApplication()->getServiceManager();
-        $authService = $sm->get('login-auth-service');
-        $navigation = $sm->get('navigation');
-        if (!$authService->hasIdentity()) {
-            $page = $navigation->findOneBy('label', 'Messages');
-            $navigation->removePage($page);
-        }
-    }
-    
     public function getServiceConfig()
     {
         return [

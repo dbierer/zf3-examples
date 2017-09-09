@@ -1,0 +1,10 @@
+<h1><?= $this->action ?> Authentication Result</h1>
+<?php 
+$output = Zend\Debug\Debug::dump($this->result, 'Data Dump', FALSE);
+$safe = '    ["token"] => string(129) "xxxxxxxxxx &lt;real token removed&gt; xxxxxxxxxx"';
+$dump = explode("\n", $output);
+foreach ($dump as $line) {
+    echo (strpos($line, '[&quot;token&quot;]')) ? $safe : $line;
+    echo PHP_EOL;
+}
+?>

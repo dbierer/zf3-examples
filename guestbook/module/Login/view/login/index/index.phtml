@@ -12,6 +12,8 @@
                 <dd><?= $this->formEmail($this->loginForm->get('email')); ?><?= $this->formElementErrors($this->loginForm->get('email')); ?></dd>
                 <dt><?= $this->formLabel($this->loginForm->get('password')); ?></dt>
                 <dd><?= $this->formPassword($this->loginForm->get('password')); ?><?= $this->formElementErrors($this->loginForm->get('password')); ?></dd>
+                <dt><?= $this->formLabel($this->loginForm->get('locale')); ?></dt>
+                <dd><?= $this->formSelect($this->loginForm->get('locale')); ?><?= $this->formElementErrors($this->loginForm->get('locale')); ?></dd>
                 <p><span class="btn btn-success"><?= $this->formSubmit($this->loginForm->get('submit')); ?></span></p>
                 <?= $this->form()->closeTag(); ?>
             </div>
@@ -31,6 +33,8 @@
                 <dd><?= $this->formEmail($this->regForm->get('email')); ?><?= $this->formElementErrors($this->regForm->get('email')); ?></dd>
                 <dt><?= $this->formLabel($this->regForm->get('password')); ?></dt>
                 <dd><?= $this->formPassword($this->regForm->get('password')); ?><?= $this->formElementErrors($this->regForm->get('password')); ?></dd>
+                <dt><?= $this->formLabel($this->loginForm->get('locale')); ?></dt>
+                <dd><?= $this->formSelect($this->loginForm->get('locale')); ?><?= $this->formElementErrors($this->loginForm->get('locale')); ?></dd>
                 <dt><?= $this->formLabel($this->regForm->get('username')); ?></dt>
                 <dd><?= $this->formText($this->regForm->get('username')); ?><?= $this->formElementErrors($this->regForm->get('username')); ?></dd>
                 <dt><?= $this->formLabel($this->regForm->get('securityQuestion')); ?></dt>

@@ -11,6 +11,7 @@ use Zend\Router\Http\Literal;
 use Zend\Router\Http\Segment;
 use Zend\ServiceManager\Factory\InvokableFactory;
 use Zend\Navigation\Service\NavigationAbstractServiceFactory;
+use Zend\Mvc\Controller\Plugin\FlashMessenger;
 
 return [
     'router' => [
