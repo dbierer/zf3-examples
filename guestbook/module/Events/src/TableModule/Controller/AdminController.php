@@ -5,9 +5,9 @@ use Events\TableModule\Model\ {EventTable, RegistrationTable, AttendeeTable};
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
-class AdminController extends AbstractActionController implements ServiceLocatorAwareInterface
+class AdminController extends AbstractActionController
 {
-    use ServiceLocatorTrait;
+    use TableTrait;
 
     public function indexAction()
     {
@@ -15,16 +15,14 @@ class AdminController extends AbstractActionController implements ServiceLocator
         if ($eventId) {
             return $this->listRegistrations($eventId);
         }
-        $eventTable = $this->serviceLocator->get(EventTable::class);
-        $events = $eventTable->findAll();
+        $events = $this->eventTable->findAll();
         $viewModel = new ViewModel(array('events' => $events));
         return $viewModel;
     }
 
     protected function listRegistrations($eventId)
     {
-        $regTable = $this->serviceLocator->get(RegistrationTable::class);
-        $registrations = $regTable->findAllForEvent($eventId);
+        $registrations = $this->registrationTable->findAllForEvent($eventId);
         $viewModel = new ViewModel(array('registrations' => $registrations));
         $viewModel->setTemplate('events/table-module/admin/list.phtml');
         return $viewModel;
