@@ -5,6 +5,8 @@ use Events\Doctrine\Controller\RepoAwareInterface;
 use Events\TableModule\Controller\ServiceLocatorAwareInterface;
 use Zend\Db\Adapter\Adapter;
 use Zend\Filter;
+use Zend\Navigation\Service\ConstructedNavigationFactory;
+
 class Module
 {
     const VERSION = '3.0.3-dev';
@@ -65,6 +67,10 @@ class Module
                     $filter->attach(new Filter\StringTrim())
                           ->attach(new Filter\StripTags());
                     return $filter;
+                },
+                'events-menu' => function ($sm) {
+                    $factory = new ConstructedNavigationFactory($sm->get('events-menu-config'));
+                    return $factory->createService($sm);
                 },
             ],
             'initializers' => [

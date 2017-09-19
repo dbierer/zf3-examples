@@ -3,10 +3,10 @@
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">Signup Form</h3>
+                <h3 class="panel-title"><?= $this->translate('Signup Form'); ?></h3>
             </div>
             <div class="panel-body">
-                <p>Please sign our guestbook!</p>
+                <p><?= $this->translate('Please sign our guestbook!'); ?></p>
                 <?php $this->form->prepare(); ?>
                 <?= $this->form()->openTag($this->form); ?>
                 <p>
@@ -30,7 +30,7 @@
                 <?= $this->form()->closeTag(); ?>
 
                 <?php if ($this->message) : ?><b><?= $this->message; ?></b><br><?php endif; ?>
-                <a href="<?php $this->url('home'); ?>">HOME</a>
+                <a href="<?php $this->url('home'); ?>"><?= $this->translate('Home'); ?></a>
                 <br>
                 <?php \Zend\Debug\Debug::dump($this->data, 'Request Data<br>'); ?>
                 <?php \Zend\Debug\Debug::dump($this->guest, 'Guestbook Entity<br>'); ?>

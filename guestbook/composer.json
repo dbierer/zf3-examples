@@ -31,7 +31,8 @@
         "zendframework/zend-mvc-plugin-flashmessenger": "^1.0",
         "league/oauth2-client": "*",
         "league/oauth2-google": "*",
-        "zendframework/zend-cache": "^2.7"
+        "zendframework/zend-cache": "^2.7",
+        "zendframework/zend-permissions-acl": "^2.6"
     },
     "autoload": {
         "psr-4": {
@@ -42,7 +43,9 @@
             "Events\\": "module/Events/src/",
             "PrivateMessages\\": "module/PrivateMessages/src/",
             "RestApi\\" : "module/RestApi/src/",
-            "AuthOauth\\" : "module/AuthOauth/src/"
+            "AuthOauth\\" : "module/AuthOauth/src/",
+            "AccessControl\\" : "module/AccessControl/src/",
+            "Translation\\" : "module/Translation/src/"
         }
     },
     "autoload-dev": {

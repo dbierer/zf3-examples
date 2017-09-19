@@ -1,4 +1,28 @@
-<div class="col-lg-6">
+<div class="col-lg-4">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">Events Menu</h2>
+        </div>
+        <div class="panel-body">
+            <!-- get ACL -->
+            <?php
+                $user = NULL;
+                $authService = $this->serviceManager->get('login-auth-service');
+                $acl = $this->serviceManager->get('access-control-guestbook-acl');
+                if ($authService->hasIdentity()) {
+                    $user = $authService->getIdentity();
+                }
+                $role = ($user) ? $user->getRole() : \AccessControl\Module::DEFAULT_ROLE;
+                $this->navigation('events-menu')->setRole($role);
+                $this->navigation('events-menu')->setAcl($acl);
+                echo $this->navigation('events-menu')->menu()->render();
+            ?>
+            Role: <?= $role; ?>
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-4">
     <div class="panel panel-default">
         <div class="panel-heading">
             <h2 class="panel-title">Table Module</h2>
@@ -12,7 +36,7 @@
     </div>
 </div>
 
-<div class="col-lg-6">
+<div class="col-lg-4">
     <div class="panel panel-default">
         <div class="panel-heading">
             <h2 class="panel-title">Doctrine</h2>

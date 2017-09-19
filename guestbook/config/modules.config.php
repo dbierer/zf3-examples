@@ -25,4 +25,6 @@ return [
     'PrivateMessages',
     'RestApi',
     'AuthOauth',
+    'AccessControl',
+    'Translation',
 ];

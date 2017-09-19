@@ -1,8 +1,12 @@
 <?php
 namespace AccessControl;
 
-use AccessControl\Acl\GuestbookAcl;
+use AccessControl\Listener\AclListenerAggregate as AclListener;
+
 return [
+    'listeners' => [
+        AclListener::class,
+    ],
     'service_manager' => [
         'factories' => [
             'access-control-datetime-assert' => Assertion\Factory\DateTimeAssertFactory::class,
@@ -11,40 +15,71 @@ return [
         'services' => [
             'access-control-config' => [
                 'roles' => [
-                    GuestbookAcl::DEFAULT_ROLE => '',
-                    'user' => GuestbookAcl::DEFAULT_ROLE,
-                    'admin' => 'user'
+                    AclListener::DEFAULT_ROLE => NULL,
+                    'user' => AclListener::DEFAULT_ROLE,
+                    'admin' => 'user',
                 ],
                 'resources' => [
-                    'guestbook'       => Guestbook\Controller\GuestbookController::class,
-                    'login'           => Login\Controller\IndexController::class,
-                    'messages'        => PrivateMessages\Controller\IndexController::class,
-                    'app-index'       => Application\Controller\IndexController::class,
-                    'events-index'    => Events\Controller\IndexController::class,
-                    'events-tb-index' => Events\TableModule\Controller\IndexController::class,
-                    'events-tb-admin' => Events\TableModule\Controller\AdminController::class,
-                    'events-tb-sign'  => Events\TableModule\Controller\SignupController::class,
-                    'events-doc-index'=> Events\Doctrine\Controller\IndexController::class,
-                    'events-doc-admin'=> Events\Doctrine\Controller\AdminController::class,
-                    'events-doc-sign' => Events\Doctrine\Controller\SignupController::class,
+                    'guestbook'       => 'Guestbook\Controller\GuestbookController',
+                    'login'           => 'Login\Controller\IndexController',
+                    'messages'        => 'PrivateMessages\Controller\IndexController',
+                    'app-index'       => 'Application\Controller\IndexController',
+                    'events-index'    => 'Events\Controller\IndexController',
+                    'events-tb-index' => 'Events\TableModule\Controller\IndexController',
+                    'events-tb-admin' => 'Events\TableModule\Controller\AdminController',
+                    'events-tb-sign'  => 'Events\TableModule\Controller\SignupController',
+                    'events-doc-index'=> 'Events\Doctrine\Controller\IndexController',
+                    'events-doc-admin'=> 'Events\Doctrine\Controller\AdminController',
+                    'events-doc-sign' => 'Events\Doctrine\Controller\SignupController',
+                    'auth-oauth-index'=> 'AuthOauth\Controller\IndexController',
+                    // menu resources
+                    'menu-guestbook-home'   => 'menu-guestbook-home',
+                    'menu-guestbook-sign'   => 'menu-guestbook-sign',
+                    'menu-messages'         => 'menu-messages',
+                    'menu-login-login'      => 'menu-login-login',
+                    'menu-login-logout'     => 'menu-login-logout',
+                    'menu-events'           => 'menu-events',
+                    'menu-events-tm'        => 'menu-events-tm',
+                    'menu-events-tm-signup' => 'menu-events-tm-signup',
+                    'menu-events-tm-admin'  => 'menu-events-tm-admin',
+                    'menu-events-doc'       => 'menu-events-doc',
+                    'menu-events-doc-signup'=> 'menu-events-doc-signup',
+                    'menu-events-doc-admin' => 'menu-events-doc-admin',
+                    
                 ],
                 'rights' => [
-                    GuestbookAcl::DEFAULT_ROLE => [
-                        ['login'            => ['allow' => '*']],
-                        ['guestbook'        => ['allow' => '*']],
-                        ['app-index'        => ['allow' => '*']],
-                        ['events-index'     => ['allow' => '*']],
-                        ['events-tb-index'  => ['allow' => '*']],
-                        ['events-tb-sign'   => ['allow' => '*']],
-                        ['events-doc-index' => ['allow' => '*']],
-                        ['events-doc-sign'  => ['allow' => '*']],
+                    AclListener::DEFAULT_ROLE => [
+                        'login'            => ['allow' => ['login','register']],
+                        'guestbook'        => ['allow' => NULL], // NULL == any rights
+                        'app-index'        => ['allow' => NULL],
+                        'events-index'     => ['allow' => NULL],
+                        'events-tb-index'  => ['allow' => NULL],
+                        'events-tb-sign'   => ['allow' => NULL],
+                        'events-doc-index' => ['allow' => NULL],
+                        'events-doc-sign'  => ['allow' => NULL],
+                        'auth-oauth-index' => ['allow' => NULL],
+                        // menu assignments
+                        'menu-guestbook-home'   => ['allow' => NULL],
+                        'menu-guestbook-sign'   => ['allow' => NULL],
+                        'menu-login-login'      => ['allow' => NULL],
+                        'menu-events'           => ['allow' => NULL],
+                        'menu-events-tm'        => ['allow' => NULL],
+                        'menu-events-tm-signup' => ['allow' => NULL],
+                        'menu-events-doc'       => ['allow' => NULL],
+                        'menu-events-doc-signup'=> ['allow' => NULL],
                     ],
                     'user' => [
-                        ['messages'  => ['allow' => '*']],
+                        'login'             => ['allow' => 'logout'],
+                        'messages'          => ['allow' => NULL],
+                        'menu-messages'     => ['allow' => NULL],
+                        'menu-login-login'  => ['deny' => NULL],
+                        'menu-login-logout' => ['allow' => NULL],
                     ],
                     'admin' => [
-                        ['events-tb-admin'   => ['allow' => '*', 'assert' => 'access-control-datetime-assert']],
-                        ['events-doc-admin' => ['allow' => '*', 'assert' => 'access-control-datetime-assert']],
+                        'events-tb-admin'  => ['allow' => NULL, 'assert' => 'access-control-datetime-assert'],
+                        'events-doc-admin' => ['allow' => NULL, 'assert' => 'access-control-datetime-assert'],
+                        'menu-events-tm-admin' => ['allow' => NULL, 'assert' => 'access-control-datetime-assert'],
+                        'menu-events-doc-admin' => ['allow' => NULL, 'assert' => 'access-control-datetime-assert'],
                     ],
                 ],
                 'assertions' => [

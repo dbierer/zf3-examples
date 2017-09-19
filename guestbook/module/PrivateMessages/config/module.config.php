@@ -9,7 +9,7 @@ use Zend\I18n\View\Helper\DateFormat;
 return [
     'navigation' => [
         'default' => [
-            'messages' => ['label' => 'Messages', 'route' => 'messages']
+            'messages' => ['label' => 'Messages', 'route' => 'messages', 'resource' => 'menu-messages']
         ]
     ],
     'router' => [

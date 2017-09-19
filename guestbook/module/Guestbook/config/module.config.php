@@ -9,8 +9,8 @@ use Zend\ServiceManager\Factory\InvokableFactory;
 return [
     'navigation' => [
         'default' => [
-            'home' => ['label' => 'Home', 'route' => 'home'],
-            'sign' => ['label' => 'Sign', 'uri' => '/guestbook/sign']
+            'home' => ['label' => 'Home', 'route' => 'home', 'resource' => 'menu-guestbook-home'],
+            'sign' => ['label' => 'Sign', 'uri' => '/guestbook/sign', 'resource' => 'menu-guestbook-sign']
         ]
     ],
     'router' => [

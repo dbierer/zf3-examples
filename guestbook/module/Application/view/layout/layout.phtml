@@ -1,5 +1,5 @@
+<?php use AccessControl\Listener\AclListenerAggregate as AclListener; ?>
 <?= $this->doctype() ?>
-
 <html lang="en">
     <head>
         <meta charset="utf-8">
@@ -37,9 +37,18 @@
                     </a>
                 </div>
                 <div class="collapse navbar-collapse">
+                    <!-- set role and acl to navigation -->
+                    <?php
+                        $user = $this->authService->getIdentity();
+                        if (isset($this->acl)) {
+                            $this->navigation('default')->setAcl($this->acl);
+                            $role = ($user) ? $user->getRole() : AclListener::DEFAULT_ROLE;
+                            $this->navigation('default')->setRole($role);
+                        }
+                    ?>
                     <?= $this->navigation('default')->menu()->setUlClass('nav navbar-nav'); ?>
                     <div style="color:white;vertical-align:center;float:right;">
-                        <?php if ($user = $this->authService->getIdentity()) echo '<br>&nbsp;&nbsp;' . $user->getEmail(); ?>
+                        <?= ($user) ? '<br>&nbsp;&nbsp;' . $user->getEmail() . ' [' . $user->getLocale() . ']': ''; ?>
                     </div>
                 </div>
             </div>

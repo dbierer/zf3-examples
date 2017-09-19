@@ -1,2 +1,1 @@
-local.php
-*.local.php
+auth-oauth.local.php

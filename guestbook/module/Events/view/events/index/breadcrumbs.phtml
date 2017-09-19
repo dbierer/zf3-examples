@@ -1,0 +1,11 @@
+<div class="col-lg-12">
+    <div class="panel panel-default">
+        <div class="panel-body">
+        <?= $this->navigation()->breadcrumbs('events-menu')
+            ->setLinkLast(true)     // link last page
+            ->setMaxDepth(1)        // stop at level 1
+            ->setSeparator(' ▶ ');  // cool separator with newline
+        ?>
+        </div>
+    </div>
+</div>

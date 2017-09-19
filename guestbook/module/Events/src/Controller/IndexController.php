@@ -8,7 +8,7 @@ class IndexController extends AbstractActionController
 {
     public function indexAction()
     {
-        $viewModel = new ViewModel();
+        $viewModel = new ViewModel(['serviceManager' => $this->getEvent()->getApplication()->getServiceManager()]);
         return $viewModel;
     }
 }

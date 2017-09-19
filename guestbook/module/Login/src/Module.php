@@ -3,6 +3,7 @@ namespace Login;
 
 use Login\Model\UsersTable;
 
+use Locale;
 use Zend\Mvc\MvcEvent;
 use Zend\Db\Adapter\Adapter;
 use Zend\Authentication\AuthenticationService;
@@ -33,6 +34,9 @@ class Module
     public function getServiceConfig()
     {
         return [
+            'aliases' => [
+                'Zend\Authentication\AuthenticationService' => 'login-auth-service',
+            ],
             'factories' => [
                 'login-db-adapter' => function ($container) {
                     return new Adapter($container->get('local-db-config'));

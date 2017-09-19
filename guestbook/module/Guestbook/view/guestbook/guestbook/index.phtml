@@ -1,18 +1,21 @@
 <div class="row">
-
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">Guestbook List</h3>
+                <h3 class="panel-title">
+                    <?= $this->translatePlural('Person', 'People', count($this->guestList)); ?>
+                    <?= $this->translate('in'); ?>
+                    <?= $this->translate('the Guestbook'); ?>
+                </h3>
             </div>
             <div class="panel-body">
                 <table width="100%">
                 <tr>
-                    <th width="15%">Name</th>
-                    <th width="10%">Avatar</th>
-                    <th width="20%">Email</th>
-                    <th width="25%">Website</th>
-                    <th width="30%">Message</th>
+                    <th width="15%"><?= $this->translate('Name'); ?></th>
+                    <th width="10%"><?= $this->translate('Avatar'); ?></th>
+                    <th width="20%"><?= $this->translate('Email'); ?></th>
+                    <th width="25%"><?= $this->translate('Website'); ?></th>
+                    <th width="30%"><?= $this->translate('Message'); ?></th>
                 </tr>
                 <?php foreach ($this->guestList as $guest) : ?>
                 <tr>

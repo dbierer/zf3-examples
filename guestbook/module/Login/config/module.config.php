@@ -9,8 +9,8 @@ use Zend\ServiceManager\Factory\InvokableFactory;
 return [
     'navigation' => [
         'default' => [
-            'login' => ['label' => 'Login', 'uri' => '/login/login', 'tag' => __NAMESPACE__],
-            'logout' => ['label' => 'Logout', 'uri' => '/login/logout', 'tag' => __NAMESPACE__]
+            'login' => ['label' => 'Login', 'uri' => '/login/login', 'tag' => __NAMESPACE__, 'resource' => 'menu-login-login'],
+            'logout' => ['label' => 'Logout', 'uri' => '/login/logout', 'tag' => __NAMESPACE__, 'resource' => 'menu-login-logout']
         ]
     ],
     'router' => [

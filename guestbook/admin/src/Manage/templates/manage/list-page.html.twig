@@ -1,0 +1,27 @@
+{% extends '@layout/default.html.twig' %}
+
+{% block title %}List{% endblock %}
+
+{% block content %}
+    {% set confirm = '' %}
+    {% if ok_corall == 1 %}
+        {% set confirm = '&confirm=1' %}
+    {% endif %}
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Guestbook List</h2>
+            <hr>
+            <table style="width:100%;">
+            <tr><th>ID</th><th>Name</th><th>Email</th><th>&nbsp;</th></tr>
+            {% for entry in response %}
+                <tr>
+                <td>{{ entry.id }}</td>
+                <td>{{ entry.name }}</td>
+                <td>{{ entry.email }}</td>
+                <td><a href="/manage?id={{ entry.id }}&del=1{{ confirm }}">DELETE</a></td>
+                </tr>
+            {% endfor %}
+            </table>
+        </div>
+    </div>
+{% endblock %}

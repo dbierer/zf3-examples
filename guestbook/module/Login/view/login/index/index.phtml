@@ -16,6 +16,15 @@
                 <dd><?= $this->formSelect($this->loginForm->get('locale')); ?><?= $this->formElementErrors($this->loginForm->get('locale')); ?></dd>
                 <p><span class="btn btn-success"><?= $this->formSubmit($this->loginForm->get('submit')); ?></span></p>
                 <?= $this->form()->closeTag(); ?>
+                <h3>Test Users</h3>
+                <table width="100%">
+                <thead><tr style="background-color: #FFFF00;"><th>Login</th><th>Provider</th><th>Role</th></tr></thead>
+                <tr style="background-color: #E6E6FA;"><td>admin@zend.com</td><td>default</td><td>admin</td></tr>
+                <tr><td>doug@zend.com</td><td>default</td><td>user</td></tr>
+                <tr style="background-color: #E6E6FA;"><td>daryl@zend.com</td><td>default</td><td>user</td></tr>
+                <tr><td>google@zend.com</td><td>google</td><td>user</td></tr>
+                </table>
+                <p style="background-color: #E6E6FA;"><b>NOTE</b>: all passwords are "password"</p>
             </div>
         </div>
     </div>
