@@ -124,14 +124,14 @@ return [
         'services' => [
             'events-menu-config' => [
                 'events-table-module' => [
-                    'label' => 'Table Module', 
+                    'label' => 'Table Module',
                     'route' => 'events',
                     'resource' => 'menu-events-tm',
                     'pages' => [
                         ['label' => 'Sign Up Form', 'route' => 'events/table-module/signup', 'resource' => 'menu-events-tm-signup',
                             'pages' => [
                                 ['label' => 'Event A', 'route' => 'events/table-module/signup', 'params' => ['event' => 1]],
-                                ['label' => 'Event B', 'route' => 'events/table-module/signup', 'params' => ['event' => 2]],                            
+                                ['label' => 'Event B', 'route' => 'events/table-module/signup', 'params' => ['event' => 2]],
                             ],
                         ],
                         ['label' => 'Admin Area', 'route' => 'events/table-module/admin', 'resource' => 'menu-events-tm-admin',
@@ -144,7 +144,7 @@ return [
                     ],
                 ],
                 'events-doctrine' => [
-                    'label' => 'Doctrine', 
+                    'label' => 'Doctrine',
                     'route' => 'events',
                     'resource' => 'menu-events-doc',
                     'pages' => [
@@ -173,8 +173,8 @@ return [
         'factories' => [
             Controller\IndexController::class => LazyControllerAbstractFactory::class,
             TableModule\Controller\IndexController::class  => InvokableFactory::class,
-            TableModule\Controller\AdminController::class  => InvokableFactory::class,
-            TableModule\Controller\SignupController::class => InvokableFactory::class,
+            TableModule\Controller\AdminController::class  => TableModule\Controller\Factory\AdminControllerFactory::class,
+            TableModule\Controller\SignupController::class  => TableModule\Controller\Factory\SignupControllerFactory::class,
             Doctrine\Controller\IndexController::class  => InvokableFactory::class,
             Doctrine\Controller\SignupController::class => InvokableFactory::class,
             Doctrine\Controller\AdminController::class  => InvokableFactory::class,

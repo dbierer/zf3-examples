@@ -1,22 +1,21 @@
 <?php
 namespace Events\TableModule\Controller;
 
-use Events\TableModule\Model\ {EventTable, RegistrationTable, AttendeeTable};
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Filter;
 
-class SignupController extends AbstractActionController implements ServiceLocatorAwareInterface
+class SignupController extends AbstractActionController
 {
-    use ServiceLocatorTrait;
+    use TableTrait;
+    protected $regDataFilter;
     public function indexAction()
     {
         $eventId = (int) $this->params('event');
         if ($eventId) {
             return $this->eventSignup($eventId);
         }
-        $eventTable = $this->serviceLocator->get(EventTable::class);
-        $events = $eventTable->findAll();
+        $events = $this->eventTable->findAll();
         return new ViewModel(array('events' => $events));
     }
 
@@ -27,8 +26,7 @@ class SignupController extends AbstractActionController implements ServiceLocato
 
     protected function eventSignup($eventId)
     {
-        $eventTable = $this->serviceLocator->get(EventTable::class);
-        $event = $eventTable->findById($eventId);
+        $event = $this->eventTable->findById($eventId);
         if (!$event) {
             return $this->notFoundAction();
         }
@@ -45,30 +43,31 @@ class SignupController extends AbstractActionController implements ServiceLocato
     protected function processForm(array $formData, $eventId)
     {
         $formData = $this->sanitizeData($formData);
-        $regTable = $this->serviceLocator->get(RegistrationTable::class);
-        $attendeeTable = $this->serviceLocator->get(AttendeeTable::class);
-        $regId = $regTable->persist($eventId, $formData['first_name'], $formData['last_name']);
+        $regId = $this->registrationTable->persist($eventId, $formData['first_name'], $formData['last_name']);
         $ticketData = $formData['ticket'];
         foreach ($ticketData as $nameOnTicket) {
-            $attendeeTable->persist($regId, $nameOnTicket);
+            $this->attendeeTable->persist($regId, $nameOnTicket);
         }
         return true;
     }
 
     protected function sanitizeData(array $data)
     {
-        $filter = $this->serviceLocator->get('events-reg-data-filter');
         $clean  = array();
         foreach ($data as $key => $item) {
             if (is_array($item)) {
                 foreach ($item as $subKey => $subItem) {
-                    $clean[$key][$subKey] = $filter->filter($subItem);
+                    $clean[$key][$subKey] = $this->regDataFilter->filter($subItem);
                 }
             } else {
-                $clean[$key] = $filter->filter($item);
+                $clean[$key] = $this->regDataFilter->filter($item);
             }
         }
         return $clean;
     }
 
+    public function setRegDataFilter($filter)
+    {
+        $this->regDataFilter = $filter;
+    }
 }

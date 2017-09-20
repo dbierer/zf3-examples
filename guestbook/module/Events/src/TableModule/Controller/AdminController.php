@@ -1,7 +1,6 @@
 <?php
 namespace Events\TableModule\Controller;
 
-use Events\TableModule\Model\ {EventTable, RegistrationTable, AttendeeTable};
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
