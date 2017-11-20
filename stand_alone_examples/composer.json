@@ -1,0 +1,5 @@
+{
+    "require": {
+        "zendframework/zend-db": "^2.8"
+    }
+}
